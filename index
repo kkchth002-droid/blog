@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Overtrade คืออะไร?</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg,#090014,#160029,#250046);
+    color:white;
+    line-height:1.8;
+}
+
+.hero{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:20px;
+}
+
+.hero h1{
+    font-size:4rem;
+    color:#d8b4fe;
+    text-shadow:0 0 20px #a855f7;
+}
+
+.hero p{
+    font-size:1.2rem;
+    color:#d1d5db;
+}
+
+.container{
+    max-width:1000px;
+    margin:auto;
+    padding:40px 20px;
+}
+
+.card{
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(168,85,247,0.4);
+    backdrop-filter:blur(10px);
+    border-radius:20px;
+    padding:30px;
+    margin-bottom:30px;
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 0 30px rgba(168,85,247,0.4);
+}
+
+h2{
+    color:#d8b4fe;
+    margin-bottom:15px;
+}
+
+ul{
+    padding-left:20px;
+}
+
+footer{
+    text-align:center;
+    padding:40px;
+    border-top:1px solid rgba(255,255,255,0.1);
+    color:#d1d5db;
+}
+
+.glow{
+    color:#c084fc;
+}
+</style>
+</head>
+
+<body>
+
+<section class="hero">
+    <h1>Overtrade</h1>
+    <p>พฤติกรรมที่นักเทรดควรหลีกเลี่ยง</p>
+</section><!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Overtrade คืออะไร?</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg,#090014,#160029,#250046);
+    color:white;
+    line-height:1.8;
+}
+
+.hero{
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+    text-align:center;
+    padding:20px;
+}
+
+.hero h1{
+    font-size:4rem;
+    color:#d8b4fe;
+    text-shadow:0 0 20px #a855f7;
+}
+
+.hero p{
+    font-size:1.2rem;
+    color:#d1d5db;
+}
+
+.container{
+    max-width:1000px;
+    margin:auto;
+    padding:40px 20px;
+}
+
+.card{
+    background:rgba(255,255,255,0.05);
+    border:1px solid rgba(168,85,247,0.4);
+    backdrop-filter:blur(10px);
+    border-radius:20px;
+    padding:30px;
+    margin-bottom:30px;
+    transition:.3s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 0 30px rgba(168,85,247,0.4);
+}
+
+h2{
+    color:#d8b4fe;
+    margin-bottom:15px;
+}
+
+ul{
+    padding-left:20px;
+}
+
+footer{
+    text-align:center;
+    padding:40px;
+    border-top:1px solid rgba(255,255,255,0.1);
+    color:#d1d5db;
+}
+
+.glow{
+    color:#c084fc;
+}
+</style>
+</head>
+
+<body>
+
+<section class="hero">
+    <h1>Overtrade</h1>
+    <p>พฤติกรรมที่นักเทรดควรหลีกเลี่ยง</p>
+</section>
+
+<div class="container">
+
+    <div class="card">
+        <h2>Overtrade คืออะไร?</h2>
+        <p>
+            Overtrade คือการซื้อขายหรือเปิดออเดอร์มากเกินความจำเป็น
+            โดยไม่ได้ยึดตามแผนการลงทุนที่วางไว้
+            มักเกิดจากความโลภ ความตื่นเต้น หรือความต้องการเอาทุนคืนหลังขาดทุน
+        </p>
+    </div>
+
+    <div class="card">
+        <h2>สาเหตุที่ทำให้เกิด Overtrade</h2>
+        <ul>
+            <li>ต้องการกำไรเร็วเกินไป</li>
+            <li>ใช้อารมณ์ในการตัดสินใจ</li>
+            <li>ไม่ปฏิบัติตามแผนการเทรด</li>
+            <li>พยายามแก้แค้นตลาดหลังขาดทุน</li>
+            <li>ขาดวินัยในการลงทุน</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>ผลเสียของ Overtrade</h2>
+        <ul>
+            <li>เพิ่มโอกาสขาดทุน</li>
+            <li>สูญเสียเงินทุนเร็วขึ้น</li>
+            <li>เกิดความเครียดและความกดดัน</li>
+            <li>ตัดสินใจผิดพลาดบ่อยขึ้น</li>
+            <li>เสียค่าธรรมเนียมในการเทรดมากขึ้น</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>วิธีหลีกเลี่ยง Overtrade</h2>
+        <ul>
+            <li>วางแผนก่อนเข้าเทรดทุกครั้ง</li>
+            <li>กำหนดจำนวนครั้งในการเทรดต่อวัน</li>
+            <li>ใช้ Stop Loss เพื่อจำกัดความเสี่ยง</li>
+            <li>พักเมื่อเริ่มใช้อารมณ์ในการตัดสินใจ</li>
+            <li>บันทึกผลการเทรดเพื่อตรวจสอบตนเอง</li>
+        </ul>
+    </div>
+
+</div>
+
+<footer>
+    <h3 class="glow">ผู้จัดทำ</h3>
+    <p>ชิษณุพงศ์ ผาสุขล้ำ</p>
+</footer>
+
+</body>
+</html>
+
+<div class="container">
+
+    <div class="card">
+        <h2>Overtrade คืออะไร?</h2>
+        <p>
+            Overtrade คือการซื้อขายหรือเปิดออเดอร์มากเกินความจำเป็น
+            โดยไม่ได้ยึดตามแผนการลงทุนที่วางไว้
+            มักเกิดจากความโลภ ความตื่นเต้น หรือความต้องการเอาทุนคืนหลังขาดทุน
+        </p>
+    </div>
+
+    <div class="card">
+        <h2>สาเหตุที่ทำให้เกิด Overtrade</h2>
+        <ul>
+            <li>ต้องการกำไรเร็วเกินไป</li>
+            <li>ใช้อารมณ์ในการตัดสินใจ</li>
+            <li>ไม่ปฏิบัติตามแผนการเทรด</li>
+            <li>พยายามแก้แค้นตลาดหลังขาดทุน</li>
+            <li>ขาดวินัยในการลงทุน</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>ผลเสียของ Overtrade</h2>
+        <ul>
+            <li>เพิ่มโอกาสขาดทุน</li>
+            <li>สูญเสียเงินทุนเร็วขึ้น</li>
+            <li>เกิดความเครียดและความกดดัน</li>
+            <li>ตัดสินใจผิดพลาดบ่อยขึ้น</li>
+            <li>เสียค่าธรรมเนียมในการเทรดมากขึ้น</li>
+        </ul>
+    </div>
+
+    <div class="card">
+        <h2>วิธีหลีกเลี่ยง Overtrade</h2>
+        <ul>
+            <li>วางแผนก่อนเข้าเทรดทุกครั้ง</li>
+            <li>กำหนดจำนวนครั้งในการเทรดต่อวัน</li>
+            <li>ใช้ Stop Loss เพื่อจำกัดความเสี่ยง</li>
+            <li>พักเมื่อเริ่มใช้อารมณ์ในการตัดสินใจ</li>
+            <li>บันทึกผลการเทรดเพื่อตรวจสอบตนเอง</li>
+        </ul>
+    </div>
+
+</div>
+
+<footer>
+    <h3 class="glow">ผู้จัดทำ</h3>
+    <p>ชิษณุพงศ์ ผาสุขล้ำ</p>
+</footer>
+
+</body>
+</html>
