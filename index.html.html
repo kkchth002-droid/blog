@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Overtrading — กับดักที่นักเทรดทุกคนต้องรู้</title>
+<link href="https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;600;700&family=Space+Grotesk:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --neon: #b06ef3;
+    --neon-bright: #d49aff;
+    --neon-dim: #7c3fbf;
+    --neon-glow: rgba(176, 110, 243, 0.35);
+    --bg: #0a0010;
+    --surface: rgba(255,255,255,0.04);
+    --border: rgba(176,110,243,0.25);
+    --text: #f0e6ff;
+    --muted: #a08ab8;
+    --accent-red: #ff4f6a;
+    --accent-green: #39d98a;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Sarabun', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* ─── CANVAS BACKGROUND ─── */
+  #bg-canvas {
+    position: fixed;
+    inset: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  /* ─── LAYOUT ─── */
+  .wrapper {
+    position: relative;
+    z-index: 1;
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 1.5rem 6rem;
+  }
+
+  /* ─── HERO ─── */
+  .hero {
+    min-height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 5rem 0 3rem;
+    text-align: center;
+  }
+
+  .badge {
+    display: inline-block;
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--neon-bright);
+    border: 1px solid var(--border);
+    padding: 5px 16px;
+    border-radius: 100px;
+    margin-bottom: 2rem;
+    background: rgba(176,110,243,0.08);
+  }
+
+  .hero h1 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(2.4rem, 6vw, 4rem);
+    font-weight: 700;
+    line-height: 1.1;
+    color: #fff;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 40px var(--neon-glow), 0 0 80px rgba(176,110,243,0.2);
+  }
+
+  .hero h1 span {
+    color: var(--neon-bright);
+    text-shadow: 0 0 20px var(--neon), 0 0 60px rgba(176,110,243,0.5);
+  }
+
+  .hero-sub {
+    font-size: 1.1rem;
+    color: var(--muted);
+    line-height: 1.8;
+    max-width: 600px;
+    margin: 0 auto 2.5rem;
+  }
+
+  .hero-meta {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    font-size: 0.82rem;
+    color: var(--muted);
+    flex-wrap: wrap;
+  }
+
+  .hero-meta span { display: flex; align-items: center; gap: 5px; }
+
+  .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--neon); }
+
+  /* ─── SCROLL INDICATOR ─── */
+  .scroll-hint {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0.45;
+    font-size: 0.75rem;
+    letter-spacing: 0.1em;
+    color: var(--muted);
+    animation: bounce 2s infinite;
+  }
+
+  .scroll-hint::after {
+    content: '';
+    width: 1px;
+    height: 36px;
+    background: linear-gradient(to bottom, var(--neon), transparent);
+  }
+
+  @keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(5px); }
+  }
+
+  /* ─── SECTION ─── */
+  section { margin-bottom: 5rem; }
+
+  .section-label {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.68rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--neon);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-label::before {
+    content: '';
+    display: inline-block;
+    width: 28px;
+    height: 1px;
+    background: var(--neon);
+  }
+
+  h2 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: clamp(1.5rem, 3.5vw, 2.2rem);
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 1.2rem;
+    line-height: 1.25;
+  }
+
+  p {
+    font-size: 1.02rem;
+    line-height: 1.85;
+    color: #d0c8e0;
+    margin-bottom: 1rem;
+  }
+
+  /* ─── HIGHLIGHT QUOTE ─── */
+  .quote-block {
+    border-left: 3px solid var(--neon);
+    background: rgba(176,110,243,0.07);
+    padding: 1.4rem 1.8rem;
+    border-radius: 0 12px 12px 0;
+    margin: 2rem 0;
+    font-size: 1.1rem;
+    font-style: italic;
+    color: var(--neon-bright);
+    line-height: 1.7;
+  }
+
+  /* ─── CARDS GRID ─── */
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1rem;
+    margin-top: 1.8rem;
+  }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.4rem 1.5rem;
+    transition: border-color 0.25s, transform 0.2s;
+  }
+
+  .card:hover {
+    border-color: var(--neon);
+    transform: translateY(-3px);
+  }
+
+  .card-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.8rem;
+  }
+
+  .card h3 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.5rem;
+  }
+
+  .card p {
+    font-size: 0.88rem;
+    color: var(--muted);
+    margin: 0;
+    line-height: 1.65;
+  }
+
+  /* ─── STAT ROW ─── */
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+    margin: 2.5rem 0;
+  }
+
+  @media (max-width: 600px) { .stats { grid-template-columns: 1fr; } }
+
+  .stat {
+    text-align: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 1.5rem 1rem;
+  }
+
+  .stat-num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: var(--neon-bright);
+    text-shadow: 0 0 20px var(--neon-glow);
+    display: block;
+  }
+
+  .stat-label {
+    font-size: 0.8rem;
+    color: var(--muted);
+    margin-top: 4px;
+  }
+
+  /* ─── WARNING BOX ─── */
+  .warn-box {
+    background: rgba(255,79,106,0.08);
+    border: 1px solid rgba(255,79,106,0.35);
+    border-radius: 12px;
+    padding: 1.4rem 1.6rem;
+    margin: 2rem 0;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .warn-icon { font-size: 1.4rem; flex-shrink: 0; }
+  .warn-box p { color: #ffb3be; margin: 0; font-size: 0.95rem; }
+
+  /* ─── TIPS LIST ─── */
+  .tips { margin-top: 1.8rem; display: flex; flex-direction: column; gap: 1rem; }
+
+  .tip {
+    display: flex;
+    gap: 1.1rem;
+    align-items: flex-start;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.1rem 1.4rem;
+  }
+
+  .tip-num {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--neon);
+    min-width: 28px;
+    text-shadow: 0 0 12px var(--neon-glow);
+  }
+
+  .tip-body h4 {
+    font-family: 'Space Grotesk', sans-serif;
+    font-size: 0.92rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 3px;
+  }
+
+  .tip-body p { font-size: 0.87rem; color: var(--muted); margin: 0; line-height: 1.6; }
+
+  /* ─── DIVIDER ─── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--border), transparent);
+    margin: 4rem 0;
+  }
+
+  /* ─── FOOTER ─── */
+  footer {
+    text-align: center;
+    padding: 3rem 0 1rem;
+    font-size: 0.8rem;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+  }
+
+  footer a { color: var(--neon-bright); text-decoration: none; }
+
+</style>
+</head>
+<body>
+
+<canvas id="bg-canvas"></canvas>
+
+<div class="wrapper">
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="badge">Trading Psychology Series</div>
+    <h1>Overtrading<br><span>กับดักที่ทำลายพอร์ตโดยไม่รู้ตัว</span></h1>
+    <p class="hero-sub">เมื่อความกระตือรือร้นเกินพอดีกลายเป็นศัตรูตัวร้ายที่นักเทรดไม่ควรมองข้าม</p>
+    <div class="hero-meta">
+      <span>📅 มิถุนายน 2568</span>
+      <span class="dot"></span>
+      <span>⏱ อ่าน ~7 นาที</span>
+      <span class="dot"></span>
+      <span>🏷 Trading · Psychology · Risk</span>
+    </div>
+    <div class="scroll-hint">SCROLL</div>
+  </header>
+
+  <!-- INTRO -->
+  <section>
+    <div class="section-label">บทนำ</div>
+    <h2>Overtrading คืออะไร?</h2>
+    <p>
+      Overtrading หรือ "การเทรดมากเกินไป" คือพฤติกรรมที่นักเทรดเปิดออเดอร์บ่อยครั้งและมากเกินกว่าที่กลยุทธ์กำหนด
+      ไม่ว่าจะเป็นเพราะความโลภหลังได้กำไร ความกลัวตกรถ (FOMO) หรือความพยายาม "แก้แค้น" หลังขาดทุน
+    </p>
+    <p>
+      ในแวดวงการลงทุน นี่คือหนึ่งในสาเหตุหลักที่ทำให้พอร์ตพังโดยที่ระบบเทรดยังดีอยู่
+      ปัญหาไม่ได้อยู่ที่ตลาด แต่อยู่ที่ผู้เทรดเอง
+    </p>
+
+    <div class="quote-block">
+      "It's not about how many trades you make — it's about making the right ones."<br>
+      — Jesse Livermore
+    </div>
+  </section>
+
+  <!-- STATS -->
+  <section>
+    <div class="section-label">ตัวเลขที่น่าตกใจ</div>
+    <h2>ผลกระทบที่วัดได้จริง</h2>
+    <div class="stats">
+      <div class="stat">
+        <span class="stat-num">73%</span>
+        <div class="stat-label">ของรีเทลเทรดเดอร์ขาดทุนในระยะยาว</div>
+      </div>
+      <div class="stat">
+        <span class="stat-num">3–5×</span>
+        <div class="stat-label">ค่าคอมมิชชั่นที่เพิ่มขึ้นจากการเทรดมากเกิน</div>
+      </div>
+      <div class="stat">
+        <span class="stat-num">40%</span>
+        <div class="stat-label">ของการตัดสินใจเทรดเกิดจากอารมณ์ไม่ใช่ระบบ</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- CAUSES -->
+  <section>
+    <div class="section-label">สาเหตุ</div>
+    <h2>ทำไมนักเทรดถึง Overtrade?</h2>
+    <p>ปัจจัยทางจิตวิทยามีบทบาทมากกว่าที่หลายคนคิด พฤติกรรมเหล่านี้มักเกิดขึ้นโดยไม่รู้ตัว</p>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-icon">🎰</div>
+        <h3>Revenge Trading</h3>
+        <p>เมื่อขาดทุนแล้วรู้สึกต้องการ "คืนทุน" ทันที ทำให้เปิดออเดอร์โดยไม่ผ่านการวิเคราะห์</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🚂</div>
+        <h3>FOMO</h3>
+        <p>กลัวพลาดโอกาส จึงกระโดดเข้าไปในทุกการเคลื่อนไหวของราคา ไม่รอสัญญาณที่ถูกต้อง</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🧠</div>
+        <h3>Boredom Trading</h3>
+        <p>เทรดเพื่อความตื่นเต้น ไม่ใช่เพื่อกำไร ตลาดไซด์เวย์ก็ยังอยากกดซื้อขาย</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">💸</div>
+        <h3>Overconfidence</h3>
+        <p>หลังชนะหลายไม้ติดต่อกัน ความมั่นใจพุ่งสูงจนลืมกฎ Risk Management</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- WARNING -->
+  <section>
+    <div class="section-label">สัญญาณเตือน</div>
+    <h2>คุณกำลัง Overtrade อยู่หรือเปล่า?</h2>
+
+    <div class="warn-box">
+      <div class="warn-icon">⚠️</div>
+      <p>ถ้าคุณพบว่าตัวเองมีพฤติกรรมเหล่านี้ นั่นคือสัญญาณว่าคุณอาจกำลัง Overtrade และพอร์ตกำลังตกอยู่ในความเสี่ยงที่ไม่จำเป็น</p>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-icon">📉</div>
+        <h3>เปิดออเดอร์ทุกวันโดยไม่มีเหตุผลชัดเจน</h3>
+        <p>รู้สึกว่าถ้าไม่เทรดวันนี้จะ "เสียโอกาส"</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">🔁</div>
+        <h3>เพิ่ม Position Size หลังขาดทุน</h3>
+        <p>หวังกู้คืนทุนด้วยการเสี่ยงมากขึ้นในไม้ถัดไป</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">📊</div>
+        <h3>ค่าคอมมิชชั่นมากกว่ากำไร</h3>
+        <p>ตัวเลขค่าธรรมเนียมสะสมกินกำไรหมดทุกเดือน</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">😤</div>
+        <h3>อารมณ์ขึ้นลงตามราคาทุกนาที</h3>
+        <p>ชีวิตผูกติดกับจอ PnL จนไม่สามารถทำกิจกรรมอื่นได้</p>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <!-- SOLUTIONS -->
+  <section>
+    <div class="section-label">วิธีแก้ไข</div>
+    <h2>หยุด Overtrade ได้อย่างไร?</h2>
+    <p>การแก้ปัญหา Overtrading ต้องเริ่มจากวินัยและโครงสร้าง ไม่ใช่เพียงแค่ "ตั้งใจจะเลิก"</p>
+
+    <div class="tips">
+      <div class="tip">
+        <div class="tip-num">01</div>
+        <div class="tip-body">
+          <h4>กำหนด Max Trades ต่อวัน/สัปดาห์</h4>
+          <p>ตั้งกฎเด็ดขาดว่าวันหนึ่งเทรดได้ไม่เกินกี่ไม้ เมื่อครบแล้วต้องหยุดทันทีไม่ว่าตลาดจะเป็นอย่างไร</p>
+        </div>
+      </div>
+      <div class="tip">
+        <div class="tip-num">02</div>
+        <div class="tip-body">
+          <h4>ใช้ Trading Journal บันทึกทุกออเดอร์</h4>
+          <p>เขียนเหตุผลก่อนกด Buy/Sell ทุกครั้ง ถ้าหาเหตุผลจากระบบไม่ได้ — อย่าเทรด</p>
+        </div>
+      </div>
+      <div class="tip">
+        <div class="tip-num">03</div>
+        <div class="tip-body">
+          <h4>ตั้ง Daily Loss Limit</h4>
+          <p>กำหนดว่าถ้าขาดทุนถึง X% ของพอร์ตในวันนั้น ให้ปิดคอมแล้วหยุดพักทันที ไม่มีข้อยกเว้น</p>
+        </div>
+      </div>
+      <div class="tip">
+        <div class="tip-num">04</div>
+        <div class="tip-body">
+          <h4>Back to Backtesting</h4>
+          <p>เมื่อเริ่มหลงทิศ กลับไปทดสอบระบบในอดีต เพื่อเตือนตัวเองว่ากลยุทธ์ที่ดีต้องใช้ความอดทน</p>
+        </div>
+      </div>
+      <div class="tip">
+        <div class="tip-num">05</div>
+        <div class="tip-body">
+          <h4>Mindfulness & Mental Reset</h4>
+          <p>หลังขาดทุนหนัก ให้พัก 24 ชั่วโมงก่อนเทรดใหม่ อารมณ์ที่ดีคือ Edge ที่หลายคนมองข้าม</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONCLUSION -->
+  <section>
+    <div class="section-label">บทสรุป</div>
+    <h2>Less is More ในโลกของการเทรด</h2>
+    <p>
+      นักเทรดที่ประสบความสำเร็จในระยะยาวมักไม่ใช่คนที่เทรดมากที่สุด แต่คือคนที่รู้จัก "รอ"
+      โอกาสที่ดีและมี Discipline ในการปฏิบัติตามกลยุทธ์อย่างสม่ำเสมอ
+    </p>
+    <p>
+      Overtrading คือสัญญาณว่าจิตใจครอบงำระบบ เมื่อใดก็ตามที่คุณรู้สึกอยากเทรด
+      ให้ถามตัวเองก่อนว่า <strong style="color: var(--neon-bright);">"ระบบบอกให้เทรดหรือเปล่า?"</strong>
+    </p>
+    <div class="quote-block">
+      "The stock market is a device for transferring money from the impatient to the patient."<br>
+      — Warren Buffett
+    </div>
+  </section>
+
+  <footer>
+    <p>บล็อกนี้จัดทำเพื่อการศึกษา ไม่ใช่คำแนะนำทางการเงิน</p>
+    <p style="margin-top: 8px;">
+      Hosted on <a href="https://pages.github.com" target="_blank">GitHub Pages</a> &nbsp;·&nbsp;
+      © 2568 Trading Psychology Series
+    </p>
+  </footer>
+
+</div>
+
+<script>
+const canvas = document.getElementById('bg-canvas');
+const ctx = canvas.getContext('2d');
+
+let W, H, animId;
+const LINES = 18;
+const lines = [];
+
+function resize() {
+  W = canvas.width = window.innerWidth;
+  H = canvas.height = window.innerHeight;
+}
+
+function randomLine() {
+  const startX = Math.random() * W;
+  const points = [{ x: startX, y: H + 20 }];
+  let cx = startX;
+  for (let i = 0; i < 80; i++) {
+    cx += (Math.random() - 0.46) * 22;
+    points.push({ x: cx, y: H + 20 - (i + 1) * (H / 80) });
+  }
+  return {
+    points,
+    alpha: 0.06 + Math.random() * 0.12,
+    width: 0.6 + Math.random() * 1.2,
+    color: Math.random() > 0.3 ? '#b06ef3' : (Math.random() > 0.5 ? '#ff4f6a' : '#39d98a'),
+    offset: Math.random() * Math.PI * 2,
+    speed: 0.003 + Math.random() * 0.005
+  };
+}
+
+for (let i = 0; i < LINES; i++) lines.push(randomLine());
+
+let tick = 0;
+function draw() {
+  ctx.clearRect(0, 0, W, H);
+
+  // subtle radial gradient overlay
+  const grad = ctx.createRadialGradient(W * 0.5, H * 0.3, 0, W * 0.5, H * 0.3, H * 0.8);
+  grad.addColorStop(0, 'rgba(80,20,130,0.18)');
+  grad.addColorStop(1, 'rgba(0,0,0,0)');
+  ctx.fillStyle = grad;
+  ctx.fillRect(0, 0, W, H);
+
+  lines.forEach((line, idx) => {
+    const scrollFrac = window.scrollY / (document.body.scrollHeight - H);
+    const shiftY = -window.scrollY * 0.25;
+
+    ctx.save();
+    ctx.translate(0, shiftY);
+    ctx.globalAlpha = line.alpha * (0.7 + 0.3 * Math.sin(tick * line.speed + line.offset));
+    ctx.strokeStyle = line.color;
+    ctx.lineWidth = line.width;
+    ctx.lineJoin = 'round';
+    ctx.lineCap = 'round';
+
+    ctx.beginPath();
+    line.points.forEach((pt, i) => {
+      if (i === 0) ctx.moveTo(pt.x, pt.y);
+      else ctx.lineTo(pt.x, pt.y);
+    });
+    ctx.stroke();
+
+    // glow pass
+    ctx.globalAlpha = line.alpha * 0.3;
+    ctx.lineWidth = line.width * 3;
+    ctx.filter = 'blur(3px)';
+    ctx.stroke();
+    ctx.filter = 'none';
+    ctx.restore();
+  });
+
+  tick++;
+  animId = requestAnimationFrame(draw);
+}
+
+resize();
+window.addEventListener('resize', () => { resize(); });
+draw();
+</script>
+
+</body>
+</html>
